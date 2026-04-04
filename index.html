@@ -7,7 +7,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Black &amp; White by Joel Soto">
-  <meta property="og:description" content="Joyería de Acero. Diseño exclusivo, hecho a mano.">
+  <meta property="og:description" content="Moda y accesorios. Diseño exclusivo, hecho a mano.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dajozu2513.github.io/black-and-white-joel">
   <meta property="og:image" content="https://dajozu2513.github.io/black-and-white-joel/og.jpg">
@@ -19,7 +19,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Black &amp; White by Joel Soto">
-  <meta name="twitter:description" content="Joyería de Acero. Diseño exclusivo, hecho a mano.">
+  <meta name="twitter:description" content="Moda y accesorios. Diseño exclusivo, hecho a mano.">
   <meta name="twitter:image" content="https://dajozu2513.github.io/black-and-white-joel/og.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -219,7 +219,7 @@
 
   .hero-scroll {
     position: absolute;
-    bottom: 2.5rem;
+    bottom: 4.5rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -234,24 +234,20 @@
     animation: heroFadeIn 1.4s 1s ease both;
   }
 
-  .hero-scroll-line {
-    width: 1px;
-    height: 40px;
-    background: rgba(255,255,255,0.3);
-    animation: scrollLine 2s 1.5s ease infinite;
-    transform-origin: top;
+  .hero-scroll-arrow {
+    animation: arrowBounce 1.8s 1.5s ease infinite;
+    opacity: 0.6;
   }
 
-  @keyframes scrollLine {
-    0%, 100% { transform: scaleY(0); opacity: 0; }
-    30% { opacity: 1; }
-    60% { transform: scaleY(1); opacity: 0.6; }
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(6px); opacity: 1; }
   }
 
   /* ── PILLARS ── */
   .pillars {
     background: var(--surface);
-    padding: clamp(3rem, 7vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
@@ -268,36 +264,38 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 2rem;
     border-right: 1px solid var(--border);
   }
 
   .pillar:last-child { border-right: none; }
 
   .pillar-icon {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 1.2rem;
+    display: block;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.4rem;
     color: var(--ink);
-    opacity: 0.7;
+    opacity: 0.75;
   }
 
   .pillar-title {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: var(--ink);
   }
 
   .pillar-text {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
     font-weight: 300;
     letter-spacing: 0.05em;
     color: var(--ink-mid);
-    line-height: 1.7;
+    line-height: 1.8;
+    max-width: 22ch;
   }
 
   /* ── SEPARATOR ── */
@@ -452,6 +450,15 @@
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--ink);
+    display: inline-block;
+    border-bottom: 1.5px solid transparent;
+    padding-bottom: 0.15em;
+    transition: border-color 0.2s, opacity 0.2s;
+  }
+
+  .slide-name:hover {
+    border-bottom-color: var(--ink);
+    opacity: 0.5;
   }
 
   .slide-btn {
@@ -582,6 +589,109 @@
     .carousel-wrap { padding: 0 3rem; }
     .separator { height: 300px; }
   }
+
+  /* ── PRODUCT MODAL ── */
+  .slide-img-wrap, .slide-name {
+    cursor: pointer;
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(14,14,13,0.65);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    backdrop-filter: blur(4px);
+    animation: modalFadeIn 0.25s ease;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .modal-card {
+    background: var(--surface);
+    max-width: 420px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideUp 0.28s ease;
+  }
+
+  @keyframes modalSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .modal-close {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem 0.75rem 0;
+    color: var(--ink-light);
+    line-height: 1;
+    font-size: 1.1rem;
+  }
+
+  .modal-close:hover { color: var(--ink); }
+
+  .modal-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .modal-body {
+    padding: 1.6rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .modal-name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .modal-desc {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.85;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.6rem;
+  }
+
+  .modal-btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    transition: background 0.2s, color 0.2s;
+    align-self: flex-start;
+  }
+
+  .modal-btn:hover {
+    background: transparent;
+    color: var(--ink);
+  }
 </style>
 </head>
 <body>
@@ -592,7 +702,7 @@
     <div class="brand-name">Black &amp; White</div>
     <span class="brand-sub">by Joel Soto</span>
   </div>
-  <div class="header-tag">Acero &bull; Artesanal</div>
+  <div class="header-tag">Diseño &bull; Exclusivo</div>
 </header>
 
 <!-- HERO -->
@@ -600,45 +710,45 @@
   <div class="hero-bg" id="hero-bg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Joyería de Acero</p>
     <h1 class="hero-title">Black &amp;<br><em>White</em></h1>
     <p class="hero-sub">by Joel Soto &nbsp;&nbsp;</p>
     <a href="#coleccion" class="hero-btn">Ver colección</a>
   </div>
   <div class="hero-scroll">
-    <div class="hero-scroll-line"></div>
-    <span>Scroll</span>
+    <svg class="hero-scroll-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="4 7 10 13 16 7"/>
+    </svg>
   </div>
 </section>
 
 <!-- PILLARS -->
 <section class="pillars observe-fade">
   <div class="pillar">
-    <svg class="pillar-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
-      <circle cx="20" cy="20" r="14"/>
-      <path d="M20 6 v28 M6 20 h28" opacity="0.4"/>
-      <circle cx="20" cy="20" r="5"/>
+    <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+      <circle cx="24" cy="24" r="18"/>
+      <path d="M24 6 A18 18 0 0 1 24 42" fill="currentColor" stroke="none"/>
+      <circle cx="24" cy="15" r="4.5" fill="var(--surface)" stroke="none"/>
+      <circle cx="24" cy="33" r="4.5" fill="currentColor" stroke="none"/>
     </svg>
-    <div class="pillar-title">Acero Inoxidable</div>
-    <p class="pillar-text">Resistente al tiempo y al paso de los días. Material de precisión.</p>
+    <div class="pillar-title">Estética Black &amp; White</div>
+    <p class="pillar-text">Un universo en blanco y negro. Sin distracciones, sin ruido.</p>
   </div>
   <div class="pillar">
-    <svg class="pillar-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
-      <path d="M8 32 C8 20 14 10 20 8 C26 10 32 20 32 32"/>
-      <path d="M14 28 C14 22 17 16 20 14 C23 16 26 22 26 28"/>
-      <line x1="20" y1="8" x2="20" y2="34"/>
+    <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+      <rect x="6" y="10" width="16" height="28" rx="1" fill="currentColor" stroke="none"/>
+      <rect x="26" y="10" width="16" height="28" rx="1" fill="none" stroke="currentColor"/>
     </svg>
-    <div class="pillar-title">Hecho a Mano</div>
-    <p class="pillar-text">Cada pieza trabajada con detalle. Cero producción en serie.</p>
+    <div class="pillar-title">Una sola paleta</div>
+    <p class="pillar-text">El contraste como lenguaje. Negro y blanco como filosofía.</p>
   </div>
   <div class="pillar">
-    <svg class="pillar-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2">
-      <rect x="8" y="8" width="24" height="24" rx="1"/>
-      <path d="M8 20 h24 M20 8 v24" opacity="0.4"/>
-      <rect x="15" y="15" width="10" height="10" rx="0.5"/>
+    <svg class="pillar-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.3">
+      <polygon points="24,6 44,18 44,30 24,42 4,30 4,18" stroke-linejoin="round"/>
+      <polygon points="24,14 36,21 36,27 24,34 12,27 12,21" stroke-linejoin="round"/>
+      <circle cx="24" cy="24" r="3" fill="currentColor" stroke="none"/>
     </svg>
-    <div class="pillar-title">Diseño Exclusivo</div>
-    <p class="pillar-text">Estética minimalista con identidad propia. Cada nombre, una historia.</p>
+    <div class="pillar-title">Identidad propia</div>
+    <p class="pillar-text">No seguimos tendencias. Definimos las nuestras.</p>
   </div>
 </section>
 
@@ -646,7 +756,6 @@
 <div class="separator" id="separator-bg-wrap">
   <div class="separator-bg" id="separator-bg"></div>
   <div class="separator-overlay">
-    <span class="separator-label">La colección</span>
     <span class="separator-headline">Presencia sin adorno</span>
   </div>
 </div>
@@ -654,7 +763,7 @@
 <!-- CAROUSEL SECTION -->
 <section class="carousel-section" id="coleccion">
   <div class="section-header observe-fade">
-    <h2 class="section-title">La <em>Colección</em></h2>
+    <h2 class="section-title">Joyería <em>de Acero</em></h2>
   </div>
 
   <div class="carousel-wrap">
@@ -670,7 +779,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Void</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AVoid%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="1">
@@ -679,7 +787,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Star</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AStar%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="2">
@@ -688,7 +795,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Monolith</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AMonolith%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="3">
@@ -697,7 +803,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Static</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AStatic%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="4">
@@ -706,7 +811,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Together</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2ATogether%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="5">
@@ -715,7 +819,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Meridian</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AMeridian%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="6">
@@ -724,7 +827,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Heart</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AHeart%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="7">
@@ -733,7 +835,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Echo</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2AEcho%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     <div class="slide " data-index="8">
@@ -742,7 +843,6 @@
       </div>
       <div class="slide-info">
         <div class="slide-name">Snake</div>
-        <a class="slide-btn" href="https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20brazalete%20%2ASnake%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer">Consultar</a>
       </div>
     </div>
     </div>
@@ -763,6 +863,20 @@
   <div class="footer-brand">Black &amp; White &mdash; Joel Soto</div>
   <div class="footer-copy">&copy; 2025 &bull; Todos los derechos reservados</div>
 </footer>
+
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">&times;</button>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div class="modal-body">
+      <div class="modal-name" id="modalName"></div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <a class="modal-btn" id="modalBtn" href="" target="_blank" rel="noopener noreferrer">Consultar</a>
+    </div>
+  </div>
+</div>
 
 <script>
   // ── HEADER SCROLL ──
@@ -835,6 +949,58 @@
     if (e.key === 'ArrowLeft')  goTo(current - 1);
     if (e.key === 'ArrowRight') goTo(current + 1);
   });
+
+  // ── PRODUCT MODAL ──
+  const PRODUCTS = {
+    'Void':     { desc: 'El vacío no es ausencia. Es el espacio donde todo comienza. Esta cadena existe antes que las palabras.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AVoid%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Star':     { desc: 'Cada estrella es una cicatriz del universo. Esta lleva esa misma tensión — pequeña, constante, imposible de ignorar.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AStar%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Monolith': { desc: 'Sólido. Sin disculpas. Hay cosas que no necesitan explicación, solo presencia.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AMonolith%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Static':   { desc: 'El ruido entre frecuencias. Ese momento justo antes de que todo tenga sentido — o de que deje de tenerlo.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AStatic%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Together': { desc: 'Dos mitades que no se buscan, se encuentran. Este brazalete no une, recuerda que ya estabas unido.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2ATogether%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Meridian': { desc: 'La línea que divide el día de la noche, lo conocido de lo desconocido. Úsalo en el límite.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AMeridian%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Heart':    { desc: 'No el corazón que siente. El que resiste. El que sigue aunque nadie lo vea latir.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AHeart%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Echo':     { desc: 'Lo que dijiste ya no está, pero su forma permanece. Cada eslabón repite al anterior, sin agotarse.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AEcho%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
+    'Snake':    { desc: 'No rastrea, fluye. Se adapta sin perder su forma. Lleva consigo algo antiguo que todavía no tiene nombre.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2ASnake%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' }
+  };
+
+  const modal     = document.getElementById('productModal');
+  const modalImg  = document.getElementById('modalImg');
+  const modalName = document.getElementById('modalName');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalBtn  = document.getElementById('modalBtn');
+
+  function openModal(name, imgSrc) {
+    const p = PRODUCTS[name];
+    if (!p) return;
+    modalImg.src          = imgSrc;
+    modalImg.alt          = name;
+    modalName.textContent = name;
+    modalDesc.textContent = p.desc;
+    modalBtn.href         = p.wa;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.querySelectorAll('.slide-img-wrap, .slide-name').forEach(el => {
+    el.addEventListener('click', () => {
+      const slide = el.closest('.slide');
+      const name  = slide.querySelector('.slide-name').textContent.trim();
+      const img   = slide.querySelector('img').src;
+      openModal(name, img);
+    });
+  });
+
 </script>
+
+
 </body>
 </html>
