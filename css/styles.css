@@ -66,23 +66,25 @@
     font-size: 0.6rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
+    color: rgba(255,255,255,1);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
     margin-top: 3px;
     display: block;
     transition: color 0.4s;
   }
 
-  header.scrolled .brand-sub { color: var(--ink-mid); }
+  header.scrolled .brand-sub { color: var(--ink); text-shadow: none; }
 
   .header-tag {
     font-size: 0.62rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,1);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
     transition: color 0.4s;
   }
 
-  header.scrolled .header-tag { color: var(--ink-light); }
+  header.scrolled .header-tag { color: var(--ink-mid); text-shadow: none; }
 
   /* ── HERO ── */
   .hero {
@@ -99,11 +101,17 @@
   .hero-bg {
     position: absolute;
     inset: -10%;
-    background-image: url("../pictures/background/chain.JPG");
+    background-image: url("../pictures/background/horizontal.JPG");
     background-size: cover;
     background-position: center top;
     will-change: transform;
     transition: transform 0.1s linear;
+  }
+
+  @media (orientation: portrait) {
+    .hero-bg {
+      background-image: url("../pictures/background/vertical.JPG");
+    }
   }
 
   .hero-overlay {
@@ -149,7 +157,7 @@
     line-height: 1;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 0.3rem;
+    margin-bottom: 2rem;
     animation: heroFadeIn 1.2s 0.35s ease both;
   }
 
@@ -164,7 +172,8 @@
     font-weight: 200;
     letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.55);
+    color: rgba(255,255,255,1);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
     margin-bottom: 2.8rem;
     animation: heroFadeIn 1.2s 0.5s ease both;
   }
@@ -276,15 +285,25 @@
     position: relative;
     height: 460px;
     overflow: hidden;
+    background: #0e0e0d;
   }
 
   .separator-bg {
     position: absolute;
-    inset: -15%;
-    background-image: url("../pictures/background/chain.JPG");
+    top: -100px;
+    right: -50px;
+    bottom: -400px;
+    left: -50px;
+    background-image: url("../pictures/background/horizontal.JPG");
     background-size: cover;
     background-position: center 30%;
     will-change: transform;
+  }
+
+  @media (orientation: portrait) {
+    .separator-bg {
+      background-image: url("../pictures/background/vertical.JPG");
+    }
   }
 
   .separator-overlay {
