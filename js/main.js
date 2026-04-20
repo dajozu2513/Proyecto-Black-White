@@ -1,3 +1,10 @@
+  // ── INTRO SCREEN ──
+  const introScreen = document.getElementById('intro-screen');
+  setTimeout(() => {
+    introScreen.classList.add('fade-out');
+    setTimeout(() => introScreen.remove(), 1000);
+  }, 2000);
+
   // ── HEADER SCROLL ──
   const header = document.getElementById('site-header');
   window.addEventListener('scroll', () => {
@@ -35,6 +42,18 @@
   }, { threshold: 0.12 });
   fadeEls.forEach(el => io.observe(el));
 
+  // ── TITLE REVEAL ON SCROLL ──
+  const revealEls = document.querySelectorAll('.observe-reveal');
+  const ioReveal = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        ioReveal.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  revealEls.forEach(el => ioReveal.observe(el));
+
   // ── CAROUSEL ──
   const slides = document.querySelectorAll('.slide');
   const dots   = document.querySelectorAll('.dot');
@@ -48,6 +67,10 @@
     slides[current].classList.add('active');
     dots[current].classList.add('active');
     counter.textContent = (current + 1) + ' / ' + slides.length;
+    const nameEl = slides[current].querySelector('.slide-name');
+    nameEl.classList.remove('slide-name-animate');
+    void nameEl.offsetWidth;
+    nameEl.classList.add('slide-name-animate');
   }
 
   document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
