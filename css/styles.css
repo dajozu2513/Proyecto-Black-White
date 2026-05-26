@@ -30,10 +30,10 @@
 
   .intro-tagline {
     font-family: var(--font-body);
-    font-size: 0.58rem;
+    font-size: 0.68rem;
     letter-spacing: 0.45em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.75);
     animation: introUp 1s 0.25s cubic-bezier(0.16,1,0.3,1) both;
   }
 
@@ -169,7 +169,6 @@
     background-size: cover;
     background-position: center top;
     will-change: transform;
-    transition: transform 0.1s linear;
   }
 
   @media (orientation: portrait) {
@@ -354,14 +353,11 @@
 
   .separator-bg {
     position: absolute;
-    top: -100px;
-    right: -50px;
-    bottom: -400px;
-    left: -50px;
+    inset: 0;
     background-image: url("../pictures/background/horizontal.JPG");
     background-size: cover;
     background-position: center 30%;
-    will-change: transform;
+    background-attachment: fixed;
   }
 
   @media (orientation: portrait) {
@@ -637,6 +633,145 @@
     text-transform: uppercase;
   }
 
+  /* ── ARTICLES SECTION ── */
+  .articles-section {
+    background: var(--bg);
+    padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--border);
+  }
+
+  .articles-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--border);
+    gap: 1px;
+    max-width: 1100px;
+    margin: 0 auto;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  .article-card {
+    background: var(--surface);
+    padding: 2.5rem 2rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    transition: background 0.25s;
+  }
+
+  .article-card:hover { background: #edecea; }
+
+  .article-cat {
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+
+  .article-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+    line-height: 1.2;
+  }
+
+  .article-excerpt {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+    flex: 1;
+  }
+
+  .article-read {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-top: 0.5rem;
+  }
+
+  /* ── ARTICLE PAGE ── */
+  .page-article #site-header {
+    background: var(--surface);
+    border-bottom-color: var(--border);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  .page-article #site-header .brand-name { color: var(--ink); }
+  .page-article #site-header .brand-sub  { color: var(--ink-mid); text-shadow: none; }
+  .page-article #site-header .header-tag { color: var(--ink-mid); text-shadow: none; }
+
+  .brand-link { text-decoration: none; display: block; }
+
+  .article-hero {
+    background: var(--ink);
+    padding: 11rem clamp(1.5rem, 5vw, 4rem) 5rem;
+    text-align: center;
+  }
+
+  .article-hero-cat {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1.5rem;
+  }
+
+  .article-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: #fff;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+
+  .article-body {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 5rem clamp(1.5rem, 5vw, 2rem);
+  }
+
+  .article-back {
+    display: inline-block;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    margin-bottom: 3.5rem;
+    transition: color 0.2s;
+  }
+
+  .article-back:hover { color: var(--ink); }
+
+  .article-body p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--ink-mid);
+    letter-spacing: 0.02em;
+    margin-bottom: 1.8rem;
+  }
+
+  .article-body p:first-of-type {
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .pillars { grid-template-columns: 1fr; }
@@ -644,6 +779,7 @@
     .pillar:last-child { border-bottom: none; }
     .carousel-wrap { padding: 0 3rem; }
     .separator { height: 300px; }
+    .articles-grid { grid-template-columns: 1fr; }
   }
 
   /* ── PRODUCT MODAL ── */

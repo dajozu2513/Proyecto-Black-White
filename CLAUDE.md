@@ -24,36 +24,40 @@ The Node server (`.claude/server.js`) serves the project root on port 8081 and i
 
 ## Architecture
 
-All HTML, CSS, and JavaScript are currently embedded in a single `index.html` (~30KB) at the project root. The `css/` and `js/` folders exist for a planned split.
+Structure is split across three files: `index.html` (markup), `css/styles.css` (all styles), `js/main.js` (all behaviour). No bundler — browsers load them directly.
 
-**File structure:**
+**Files:**
 ```
-index.html               — entire site (HTML + CSS + JS)
-css/                     — planned: extracted stylesheet
-js/                      — planned: extracted scripts
+index.html               — markup only; links css/styles.css and js/main.js
+css/styles.css           — all styles, including animations and responsive rules
+js/main.js               — all interactivity (intro, parallax, carousel, modal)
 pictures/
-  background/chain.JPG  — parallax background used in hero + separator
-  products/             — 9 product images (Void, Star, Monolith, Static,
-                          Together, Meridian, Heart, Echo, Snake)
+  background/            — chain.JPG (hero + separator parallax), horizontal.JPG, vertical.JPG
+  products/              — 9 product images (Void, Star, Monolith, Static,
+                           Together, Meridian, Heart, Echo, Snake)
+og.jpg                   — Open Graph / Twitter Card share image
 ```
 
 **HTML structure (top-to-bottom):**
-1. `<header>` — Fixed nav; gains `.scrolled` class via JS when `scrollY > 60px`
-2. `#hero` — Full-viewport hero; `chain.JPG` background via `.hero-bg`
-3. Pillars section — Three brand statements with `.observe-fade` scroll animation
-4. Separator — Parallax divider; also uses `chain.JPG`
-5. `#coleccion` — 9-slide product carousel with product modal
-6. `<footer>` — Brand name and copyright
+1. `#intro-screen` — Full-screen branded splash; fades out after 2 s then is removed from DOM
+2. `<header id="site-header">` — Fixed nav; gains `.scrolled` class when `scrollY > 60px`
+3. `#hero` — Full-viewport hero; `chain.JPG` background via `#hero-bg`
+4. Pillars section — Three brand statements with `.observe-fade` scroll animation
+5. Separator — Parallax divider (`#separator-bg-wrap`) using `chain.JPG`
+6. `#coleccion` — 9-slide product carousel with product modal
+7. `<footer>` — Brand name and copyright
 
-**JavaScript (bottom of `index.html`):**
-- `updateParallax()` — background-position offsets at 30–35% scroll speed
-- `goTo(n)` — carousel navigation (click, dot nav, touch swipe 40px threshold, keyboard arrows)
-- `openModal(name, imgSrc)` — product detail modal with description + WhatsApp CTA
-- `IntersectionObserver` on `.observe-fade` elements (12% threshold) for fade-in
+**JavaScript (`js/main.js`):**
+- Intro: removes `#intro-screen` after 2 s fade-out via `setTimeout`
+- `updateParallax()` — `translateY` offsets on `#hero-bg` (35%) and `#separator-bg` (30%)
+- `goTo(n)` — carousel navigation (prev/next buttons, dot nav, touch swipe ≥ 40 px, keyboard arrows); also triggers `.slide-name-animate` CSS class swap for name transition
+- Two `IntersectionObserver` instances: `.observe-fade` (12% threshold) and `.observe-reveal` (30% threshold) for scroll-driven animations
+- `openModal(name, imgSrc)` / `closeModal()` — product detail modal; closes on overlay click or Escape key
+- `PRODUCTS` object — keyed by product name, holds `desc` (Spanish copy) and `wa` (pre-encoded WhatsApp URL)
 
 **CSS custom properties** (defined on `:root`):
 - `--bg`, `--surface`, `--ink`, `--ink-mid`, `--ink-light`, `--border`, `--radius`
-- Fonts: Cormorant Garamond (display) + Montserrat (body) via Google Fonts
+- `--font-display` (Cormorant Garamond), `--font-body` (Montserrat) via Google Fonts
 
 ## Content
 

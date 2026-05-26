@@ -1,9 +1,14 @@
   // ── INTRO SCREEN ──
   const introScreen = document.getElementById('intro-screen');
-  setTimeout(() => {
-    introScreen.classList.add('fade-out');
-    setTimeout(() => introScreen.remove(), 1000);
-  }, 2000);
+  if (sessionStorage.getItem('introSeen')) {
+    introScreen.remove();
+  } else {
+    sessionStorage.setItem('introSeen', '1');
+    setTimeout(() => {
+      introScreen.classList.add('fade-out');
+      setTimeout(() => introScreen.remove(), 1000);
+    }, 2000);
+  }
 
   // ── HEADER SCROLL ──
   const header = document.getElementById('site-header');
@@ -13,21 +18,18 @@
 
   // ── PARALLAX ──
   const heroBg = document.getElementById('hero-bg');
-  const sepBg  = document.getElementById('separator-bg');
-  const sepWrap = document.getElementById('separator-bg-wrap');
 
+  let rafPending = false;
   function updateParallax() {
-    const sy = window.scrollY;
-    // Hero parallax
-    heroBg.style.transform = `translateY(${sy * 0.35}px)`;
-    // Separator parallax
-    const sepTop = sepWrap.getBoundingClientRect().top + sy;
-    const sepOff = sy - sepTop;
-    if (Math.abs(sepOff) < 1000) {
-      sepBg.style.transform = `translateY(${sepOff * 0.3}px)`;
-    }
+    heroBg.style.transform = `translateY(${window.scrollY * 0.35}px)`;
+    rafPending = false;
   }
-  window.addEventListener('scroll', updateParallax, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(updateParallax);
+    }
+  }, { passive: true });
   updateParallax();
 
   // ── FADE-IN ON SCROLL ──
@@ -94,15 +96,15 @@
 
   // ── PRODUCT MODAL ──
   const PRODUCTS = {
-    'Void':     { desc: 'El vacío no es ausencia. Es el espacio donde todo comienza. Esta cadena existe antes que las palabras.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AVoid%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Star':     { desc: 'Cada estrella es una cicatriz del universo. Esta lleva esa misma tensión — pequeña, constante, imposible de ignorar.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AStar%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Monolith': { desc: 'Sólido. Sin disculpas. Hay cosas que no necesitan explicación, solo presencia.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AMonolith%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Static':   { desc: 'El ruido entre frecuencias. Ese momento justo antes de que todo tenga sentido — o de que deje de tenerlo.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AStatic%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Together': { desc: 'Dos mitades que no se buscan, se encuentran. Este brazalete no une, recuerda que ya estabas unido.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2ATogether%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Meridian': { desc: 'La línea que divide el día de la noche, lo conocido de lo desconocido. Úsalo en el límite.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AMeridian%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Heart':    { desc: 'No el corazón que siente. El que resiste. El que sigue aunque nadie lo vea latir.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AHeart%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Echo':     { desc: 'Lo que dijiste ya no está, pero su forma permanece. Cada eslabón repite al anterior, sin agotarse.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2AEcho%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' },
-    'Snake':    { desc: 'No rastrea, fluye. Se adapta sin perder su forma. Lleva consigo algo antiguo que todavía no tiene nombre.', wa: 'https://wa.me/50660062513?text=Hola%2C%20me%20interesa%20el%20dise%C3%B1o%20%2ASnake%2A.%20%C2%BFPodr%C3%ADan%20darme%20m%C3%A1s%20informaci%C3%B3n%3F' }
+    'Void':     { desc: 'El eslabón más honesto que existe, sin ruido ni adornos. Solo la forma en su estado más puro. Existir así de claro es casi un acto de rebeldía.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Void*.%20Quisiera%20una%20pieza%3A%20' },
+    'Star':     { desc: 'Pequeña, constante, imposible de ignorar. Lleva esa misma tensión del universo que no necesita volumen para hacerse sentir.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Star*.%20Quisiera%20una%20pieza%3A%20' },
+    'Monolith': { desc: 'Hay cosas que no piden permiso para existir. Esta cadena es una de ellas. Sólida, sin disculpas, sin necesidad de explicación.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Monolith*.%20Quisiera%20una%20pieza%3A%20' },
+    'Static':   { desc: 'El momento exacto antes de que todo tenga sentido o deje de tenerlo. Esa frecuencia entre el orden y el caos, hecha acero.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Static*.%20Quisiera%20una%20pieza%3A%20' },
+    'Together': { desc: 'Dos hilos que no se buscan, se encuentran. No se necesitan para existir, pero juntos dicen algo que ninguno puede decir solo.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Together*.%20Quisiera%20una%20pieza%3A%20' },
+    'Meridian': { desc: 'La línea que separa lo conocido de lo que aún no tiene nombre. Precisa, inevitable, imposible de ignorar.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Meridian*.%20Quisiera%20una%20pieza%3A%20' },
+    'Heart':    { desc: 'No el corazón que siente. El que resiste. El que sigue latiendo aunque nadie lo vea, aunque nadie lo escuche.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Heart*.%20Quisiera%20una%20pieza%3A%20' },
+    'Echo':     { desc: 'Lo que dijiste ya no está pero su forma permanece. Cada eslabón repite al anterior sin agotarse, sin olvidar.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Echo*.%20Quisiera%20una%20pieza%3A%20' },
+    'Snake':    { desc: 'No rastrea. Fluye. Lleva consigo algo antiguo que todavía no tiene nombre, y probablemente nunca lo necesite.', wa: 'https://wa.me/50660062513?text=Hola%2C%20tengo%20inter%C3%A9s%20en%20la%20cadena%20*Snake*.%20Quisiera%20una%20pieza%3A%20' }
   };
 
   const modal     = document.getElementById('productModal');
